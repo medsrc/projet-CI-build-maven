@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>io.github.stevecrox</groupId>
+        <artifactId>maven-parent</artifactId>
+        <version>1.0.4</version>
+    </parent>
+    <groupId>io.github.stevecrox.maven.skins</groupId>
+    <artifactId>bootstrap-site-skin-parent</artifactId>
+    <version>1.4.4-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>Maven Site Bootstrap Skin Parent</name>
+    <description>The Maven Site Bootstrap Skin is an Apache Maven site skin built on top of the latest bootstrap framework.</description>
+    <url>https://stevecrox.github.io/maven-site-bootstrap-skin/</url>
+    <inceptionYear>2022</inceptionYear>
+
+    <scm>
+        <connection>scm:git:https://github.com/stevecrox/maven-site-bootstrap-skin.git</connection>
+        <developerConnection>scm:git:https://github.com/stevecrox/maven-site-bootstrap-skin.git</developerConnection>
+        <url>https://github.com/stevecrox/maven-site-bootstrap-skin</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/stevecrox/maven-site-bootstrap-skin/issues</url>
+    </issueManagement>
+
+    <modules>
+        <module>bootstrap-site-skin</module>
+        <module>bootstrap-site-skin-example-parent</module>
+    </modules>
+
+    <properties>
+        <scmpublish.content>${project.build.directory}/staging/bootstrap-site-skin-parent/</scmpublish.content>
+        <!-- Overridable property for the version within the site.xml files, this is because
+             a release has to use the previous version. -->
+        <skin.last.release.version>1.4.0</skin.last.release.version>
+        <skin.version>${project.version}</skin.version>
+        <!-- Apache Maven Build Plugin Versions. -->
+        <frontend-maven-plugin.version>1.15.0</frontend-maven-plugin.version>
+        <!-- Node.JS Configuration (relates to maven-frontend-plugin). -->
+        <node-js.version>v20.11.0</node-js.version>
+    </properties>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- Apache Maven Build Plugin Versions. -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${maven-resources-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>com.github.eirslett</groupId>
+                    <artifactId>frontend-maven-plugin</artifactId>
+                    <version>${frontend-maven-plugin.version}</version>
+                    <configuration>
+                        <nodeVersion>${node-js.version}</nodeVersion>
+                        <workingDirectory>${project.build.directory}</workingDirectory>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <!-- This project has taken a number of elements from the maven-fluido-skin so I list the contributors here
+             to acknowledge their effort. -->
+    <contributors>
+        <contributor>
+            <name>Bruno P. Kinoshita</name>
+            <email>brunodepaulak AT yahoo DOT com DOT br</email>
+        </contributor>
+        <contributor>
+            <name>Carlos Villaronga</name>
+            <email>cvillaronga AT gmail DOT com</email>
+        </contributor>
+        <contributor>
+            <name>Christian Grobmeier</name>
+            <email>grobmeier AT apache DOT org</email>
+        </contributor>
+        <contributor>
+            <name>Conny Kreyssel</name>
+            <email>dev AT kreyssel DOT org</email>
+        </contributor>
+        <contributor>
+            <name>Michael Koch</name>
+            <email>tensberg AT gmx DOT net</email>
+        </contributor>
+        <contributor>
+            <name>Emmanuel Hugonnet</name>
+            <email>emmanuel DOT hugonnet AT gmail DOT com</email>
+        </contributor>
+        <contributor>
+            <name>Ivan Habunek</name>
+            <email>ihabunek AT apache DOT org</email>
+        </contributor>
+        <contributor>
+            <name>Eric Barboni</name>
+        </contributor>
+        <contributor>
+            <name>Michael Osipov</name>
+            <email>michaelo AT apache DOT org</email>
+        </contributor>
+    </contributors>
+</project>
