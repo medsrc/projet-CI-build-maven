@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.jgeppert.struts2.bootstrap</groupId>
+        <artifactId>bootstrap</artifactId>
+        <version>6.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>struts2-bootstrap-plugin</artifactId>
+    <name>Struts2 Bootstrap Plugin</name>
+    <packaging>jar</packaging>
+
+    <properties>
+        <struts-annotations.version>1.0.8</struts-annotations.version>
+    </properties>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>template/bootstrap/head.ftl</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>template/bootstrap/head.ftl</exclude>
+                </excludes>
+            </resource>
+        </resources>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                    <configuration>
+                        <compilerArgs>
+                            <arg>-Auri=/struts-bootstrap-tags</arg>
+                            <arg>-AtlibVersion=${tlib.version}</arg>
+                            <arg>-AjspVersion=2.0</arg>
+                            <arg>-AshortName=sb</arg>
+                            <arg>-AdisplayName=Struts2 Bootstrap Tags</arg>
+                            <arg>-AoutFile=${basedir}/target/classes/META-INF/struts-bootstrap-tags.tld</arg>
+                            <arg>-Adescription="Struts2 Tags for Bootstrap Theme."</arg>
+                            <arg>-AoutTemplatesDir=${basedir}/src/site/docs</arg>
+                        </compilerArgs>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <phase>compile</phase>
+                            <goals>
+                                <goal>compile</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts-annotations</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts2-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts2-velocity-plugin</artifactId>
+            <version>${struts2.version}</version>
+            <optional>true</optional>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.servlet.jsp</groupId>
+            <artifactId>jakarta.servlet.jsp-api</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- struts-annotations must be in compile scope for maven-apt-plugin to
+                 function correctly. Marking it optional to exclude it from transitive dependency resolution -->
+            <dependency>
+                <groupId>org.apache.struts</groupId>
+                <artifactId>struts-annotations</artifactId>
+                <version>${struts-annotations.version}</version>
+                <optional>true</optional>
+                <scope>compile</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

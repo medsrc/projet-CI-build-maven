@@ -1,90 +1,189 @@
-Twitter Bootstrap for Maven
-=============
-[![Build Status](https://secure.travis-ci.org/efsavage/Bootstrap-Maven.png?branch=master)](http://travis-ci.org/efsavage/Bootstrap-Maven)
+# Struts2 Bootstrap Plugin
 
-This library gives you a way to drop [Twitter Bootstrap](http://twitter.github.com/bootstrap) into your project as a [Maven](maven.apache.org) dependency, which means you don't have to include these third party files in your own source control.
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.jgeppert.struts2.bootstrap/struts2-bootstrap-plugin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.jgeppert.struts2.bootstrap/struts2-bootstrap-plugin/)
 
-pom.xml
--------
+A Plugin for simple Bootstrap CSS Framework integration into Struts2.
 
-Add this to the <dependencies> element of your pom.xml.  The artifact is deployed to the Maven Central Repository.
+### [Download] (https://repo1.maven.org/maven2/com/jgeppert/struts2/bootstrap/)
+### [News and Developer Blog] (https://www.jgeppert.com)
+### [Showcase] (https://struts.jgeppert.com/struts2-bootstrap-showcase/)
+### [Sample TODO app based on Bootstrap, jQuery and jQuery Mobile] (https://github.com/jogep/struts2-todo-examples/)
 
-	<dependency>
-    	<groupId>com.efsavage.twitter.bootstrap</groupId>
-    	<artifactId>bootstrap-maven</artifactId>
-    	<version>2.3.1</version>
-	</dependency>
+## Installation
 
-Usage
--------
-The files will "mount" themselves at the following URLs:
+### Manual
+Copy the struts2-bootstrap-plugin.jar into your WEB-INF/lib path.
 
-* /ext/bootstrap/css/bootstrap.css
-* /ext/bootstrap/css/bootstrap-responsive.css
-* /ext/bootstrap/js/bootstrap.js
-* /ext/bootstrap/img/glyphicons-halflings.png (referenced from the css files)
-* /ext/bootstrap/img/glyphicons-halflings-white.png (referenced from the css files)
+### Versions and compatibility
+| `struts2-bootstrap` version | `struts2` version  | `Java` version |
+|-----------------------------|--------------------|----------------|
+| `6.0.0`                     | version >= `7.0.0` | Java 17        |
+| `5.0.6`                     | version >= `6.7.0` | Java 8         |
+| `5.0.5`                     | version >= `6.6.0` | Java 7         |
+| `5.0.2`                     | version >= `6.1`   | Java 7         |
+| `5.0.0`                     | version >= `6.0`   | Java 7         |
 
-Requirements
--------
+### Maven
 
-This requires a Servlet 3.0 container, such as Jetty 8.
+```xml
+<dependencies>
+    ...
+    <dependency>
+        <groupId>com.jgeppert.struts2.bootstrap</groupId>
+        <artifactId>struts2-bootstrap-plugin</artifactId>
+        <version>6.0.0</version>
+    </dependency>
+    ...
+</dependencies>
+```
 
-Minified vs. Full Versions
--------
-The minified versions of .css and .js files are used by default, append ?min=false to see the full versions.
+### Using SNAPSHOT builds
+To access SNAPSHOT builds, you need to declare the snapshot repository lookup in your pom.xml:
+```xml
+...
+<repositories>
+    ...
+    <repository>
+        <id>sonatype.oss.snapshots</id>
+        <name>Sonatype OSS Snapshot Repository</name>
+        <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+        <releases>false</releases>
+        <snapshots>true</snapshots>
+    </repository>
+</repositories>
+...
+```
 
-Taglib
--------
-This library contains a tld and tag files which will automatically be available to your web application when the jar is loaded.  To include the tag library on your JSP page, include the following directive at the top:
+## Usage
 
-    <%@ taglib uri="http://efsavage.com/twitter-bootstrap" prefix="bs" 
+### Prepare your JSP
 
-You can then use the tags as specified in the taglibs.md file.  For example:
+Include the Taglib and use the HeadTag to load necessary resources.
 
-    <bs:button text="Go" />
+```jsp
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="sb" uri="/struts-bootstrap-tags" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    ...
 
-will render to:
+    <sb:head/>
+</head>
+<body>
+...
+</body>
+</html>
+```
 
-    <button class="btn" type="button">Go</button>
+### Use the Bootstrap Form Theme
 
-Modifications
--------
-The files served have not been modified in any way from their original distribution.
+```jsp
+            <s:actionerror theme="bootstrap"/>
+            <s:actionmessage theme="bootstrap"/>
+            <s:fielderror theme="bootstrap"/>
 
-Other "Mavenized" Projects
--------
-* [jQuery for Maven](https://github.com/efsavage/jQuery-Maven)
-* [Backbone.js for Maven](https://github.com/efsavage/Backbone-Maven)
 
-Changelog
--------
-Note: See the [Bootstrap Changelog](https://github.com/twitter/bootstrap/wiki/Changelog) for information about changes to the Bootstrap files themselves.
+            <s:form action="index" enctype="multipart/form-data" theme="bootstrap" cssClass="form-horizontal"
+                    label="A sample horizontal Form">
+                <s:textfield
+                        label="Name"
+                        name="name"
+                        tooltip="Enter your Name here"/>
 
-##2.3.1
-* Updated to Bootstrap version 2.3.1
-* Additional taglibs
+                <s:textfield
+                        label="Textfield with Error"
+                        name="error"/>
 
-##2.2.2
-* Updated to Bootstrap version 2.2.2
-* Added taglibs
+                <s:textarea
+                        tooltip="Enter your Biography"
+                        label="Biography"
+                        name="bio"
+                        cols="20"
+                        rows="3"/>
 
-##2.1.1
-* Updated to Bootstrap version 2.1.1
+                <s:select
+                        tooltip="Choose Your Favourite Color"
+                        label="Favorite Color"
+                        list="{'Red', 'Blue', 'Green'}"
+                        name="favouriteColor"
+                        emptyOption="true"
+                        headerKey="None"
+                        headerValue="None"/>
 
-##2.0.4
-* Updated to Bootstrap version 2.0.4
-* Fixed the image servlets
-* Moved files under /ext/bootstrap/ parent directory.
+                <s:checkboxlist
+                        tooltip="Choose your Friends"
+                        label="Friends"
+                        list="{'Wes', 'Patrick', 'Jason', 'Jay', 'Toby', 'Rene'}"
+                        name="friends"/>
 
-##2.0.3
-* Updated to Bootstrap version 2.0.3
+                <s:checkboxlist
+                        tooltip="Checkboxes with inline position"
+                        labelPosition="left"
+                        label="Friends Inline"
+                        list="{'Wes', 'Patrick', 'Jason', 'Jay', 'Toby', 'Rene'}"
+                        name="friendsInline"/>
 
-##2.0.2
-* Updated to Bootstrap version 2.0.2
+                <s:radio
+                        tooltip="Choose your Best Friend"
+                        label="Best Friend"
+                        list="{'Wes', 'Patrick', 'Jason', 'Jay', 'Toby', 'Rene'}"
+                        name="bestFriend"
+                        cssErrorClass="foo"/>
 
-##2.0.1
-* Updated to Bootstrap version 2.0.1
+                <s:radio
+                        tooltip="Radio Buttons with inline position"
+                        label="Best Friend Inline"
+                        labelPosition="left"
+                        list="{'Wes', 'Patrick', 'Jason', 'Jay', 'Toby', 'Rene'}"
+                        name="bestFriend"
+                        cssErrorClass="foo"/>
 
-##2.0.0
-* Updated to Bootstrap version 2.0.0# projet-CI-build-maven
+                <s:checkbox
+                        tooltip="Confirmed that your are Over 18"
+                        label="Age 18+"
+                        name="legalAge"/>
+
+                <s:doubleselect
+                        tooltip="Choose Your State"
+                        label="State"
+                        name="region" list="{'North', 'South'}"
+                        value="'South'"
+                        doubleValue="'Florida'"
+                        doubleList="top == 'North' ? {'Oregon', 'Washington'} : {'Texas', 'Florida'}"
+                        doubleName="state"
+                        headerKey="-1"
+                        headerValue="---------- Please Select ----------"
+                        emptyOption="true"/>
+
+                <s:file
+                        tooltip="Upload Your Picture"
+                        label="Picture"
+                        name="picture"/>
+
+                <s:optiontransferselect
+                        tooltip="Select Your Favourite Cartoon Characters"
+                        label="Favourite Cartoons Characters"
+                        name="leftSideCartoonCharacters"
+                        leftTitle="Left Title"
+                        rightTitle="Right Title"
+                        list="{'Popeye', 'He-Man', 'Spiderman'}"
+                        multiple="true"
+                        headerKey="headerKey"
+                        headerValue="--- Please Select ---"
+                        emptyOption="true"
+                        doubleList="{'Superman', 'Mickey Mouse', 'Donald Duck'}"
+                        doubleName="rightSideCartoonCharacters"
+                        doubleHeaderKey="doubleHeaderKey"
+                        doubleHeaderValue="--- Please Select ---"
+                        doubleEmptyOption="true"
+                        doubleMultiple="true"/>
+
+                <s:textarea
+                        label="Your Thougths"
+                        name="thoughts"
+                        tooltip="Enter your thoughts here"/>
+
+                <s:submit cssClass="btn"/>
+            </s:form>
+```
